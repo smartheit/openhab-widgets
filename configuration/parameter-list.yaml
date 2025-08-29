@@ -1,0 +1,100 @@
+# description: A widget implementing a list configuration parameter,
+#              where the list entries are (de)serialised from/to a String Item by joining them with a comma.
+# author: Copyright (c) 2025 smartheit GmbH under EPL-2.0
+uid: parameter-list
+tags:
+  - smartheit
+  - configuration
+props:
+  parameters:
+    - default: List Parameter Widget
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - context: item
+      description: String item
+      label: Item
+      name: item
+      required: true
+      type: TEXT
+  parameterGroups: []
+timestamp: Aug 28, 2025, 11:57:57 PM
+component: oh-context
+config:
+  functions:
+    getElements: =() => items[props.item].state.split(',').map(e =>
+      e.trim()).filter(e => e.length)
+  variables:
+    newElement: ""
+slots:
+  default:
+    - component: oh-card
+      config:
+        title: =props.title
+      slots:
+        content:
+          - component: f7-list
+            config:
+              mediaList: true
+              style:
+                padding-bottom: 1em
+                padding-top: 1em
+              visible: "=props.item ? 'true' : 'false'"
+            slots:
+              default:
+                - component: oh-repeater
+                  config:
+                    for: el
+                    in: =fn.getElements()
+                    sourceType: array
+                  slots:
+                    default:
+                      - component: f7-list-item
+                        config:
+                          key: =loop.el_idx
+                          title: =loop.el
+                        slots:
+                          media:
+                            - component: oh-link
+                              config:
+                                action: command
+                                actionCommand: =loop.el_source.filter((e, i) => i !== loop.el_idx).join(',') ||
+                                  ' '
+                                actionItem: =props.item
+                                iconColor: red
+                                iconF7: minus_circle_filled
+                - component: oh-list-item
+                  config:
+                    title: No elements, please add below
+                    visible: =!fn.getElements().length
+          - component: f7-block
+            config:
+              style:
+                display: flex
+                padding-bottom: 1em
+                padding-top: 1em
+              visible: "=props.item ? 'true' : 'false'"
+            slots:
+              default:
+                - component: oh-link
+                  config:
+                    action: "=vars.newElement?.trim() ? 'command' : ''"
+                    actionCommand: "=(fn.getElements().length ?
+                      fn.getElements().concat([vars.newElement]) :
+                      [vars.newElement]).join(',')"
+                    actionItem: =props.item
+                    iconColor: green
+                    iconF7: plus_circle_filled
+                - component: oh-input
+                  config:
+                    outline: true
+                    style:
+                      margin-left: 15px
+                      width: 100%
+                    type: text
+                    variable: newElement
+          - component: Label
+            config:
+              text: Configure item parameter to display content!
+              visible: "=props.item ? 'false' : 'true'"
