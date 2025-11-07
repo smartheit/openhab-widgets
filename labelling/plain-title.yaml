@@ -1,0 +1,59 @@
+# description:  A widget displaying a plain title and subtitle without any background.
+# author: Copyright (c) 2025 smartheit GmbH under EPL-2.0
+uid: plain-title
+tags:
+  - smartheit
+  - labelling
+props:
+  parameters:
+    - label: Title Text
+      name: text
+      required: true
+      type: TEXT
+    - label: Subtitle Text
+      name: subtext
+      required: false
+      type: TEXT
+    - default: 24px
+      label: Title Font Size
+      name: fontSize
+      required: false
+      type: TEXT
+    - default: "500"
+      label: Title Font Weight
+      name: fontWeight
+      required: false
+      type: TEXT
+    - default: 16px
+      label: Subtitle Font Size
+      name: subFontSize
+      required: false
+      type: TEXT
+    - default: "300"
+      label: Subtitle Font Weight
+      name: subFontWeight
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Sep 23, 2025, 4:13:09 PM
+component: div
+config:
+  style:
+    margin: var(--f7-card-margin-vertical) var(--f7-card-margin-horizontal)
+slots:
+  default:
+    - component: Label
+      config:
+        text: =props.text || 'Set text prop'
+        style:
+          font-size: =props.fontSize
+          font-weight: =props.fontWeight
+    - component: Label
+      config:
+        text: =props.subText
+        style:
+          font-size: =props.subFontSize
+          font-weight: =props.subFontWeight
+          line-height: 1
+          opacity: 0.8
+        visible: "=props.subText ? true : false"
