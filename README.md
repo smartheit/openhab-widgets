@@ -20,3 +20,10 @@ Configuration widgets are being used where the user needs to configure the syste
 Labelling widgets are being used to add labels, headers & titles into layout pages.
 
 - [`plain-title`](labelling/plain-title.yaml): A widget displaying a plain title and subtitle without any background.
+
+
+### List
+
+List widgets are being used to display Item state in list views, for example when displaying all Items of a group.
+
+- [`number_list_with_export`](list/number_list_with_export.yaml): A list widget for Number Items with a persistence export button.

@@ -1,0 +1,54 @@
+# description: A list widget for Number Items with a persistence export button.
+#              The export button opens a new tab with the openhab-persistence-export wizard.
+# dependency: https://github.com/florian-h05/openhab-persistence-export.
+# author: Copyright (c) 2025 smartheit GmbH under EPL-2.0
+uid: number_list_with_export
+tags:
+  - smartheit
+  - list
+props:
+  parameters:
+    - description: Widget title
+      label: Title
+      name: title
+      required: true
+      type: TEXT
+    - default: material:thermostat
+      label: Icon
+      name: icon
+      required: false
+      type: TEXT
+    - context: item
+      description: Item to display
+      label: Item
+      name: item
+      required: true
+      type: TEXT
+  parameterGroups: []
+timestamp: Nov 18, 2025, 4:12:39 PM
+component: oh-list-item
+config:
+  action: analyzer
+  actionAnalyzerCoordSystem: time
+  actionAnalyzerItems: =[props.item]
+  after: =@props.item
+  icon: =props.icon
+  title: =props.title
+slots:
+  after:
+    - component: div
+      slots:
+        default:
+          - component: oh-label
+            config:
+              item: =@props.item
+          - component: oh-button
+            config:
+              action: url
+              actionUrl: ='/static/persistence-export/index.html?itemname=' + props.item
+              iconF7: cloud_download
+              iconSize: 18
+              style:
+                color: gray
+                margin-left: 8px
+              tooltip: Export to file
