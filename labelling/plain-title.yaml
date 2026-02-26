@@ -50,10 +50,10 @@ slots:
           font-weight: =props.fontWeight
     - component: Label
       config:
-        text: =props.subText
+        text: =props.subtext
         style:
           font-size: =props.subFontSize
           font-weight: =props.subFontWeight
           line-height: 1
           opacity: 0.8
-        visible: "=props.subText ? true : false"
+        visible: "=props.subtext ? true : false"
