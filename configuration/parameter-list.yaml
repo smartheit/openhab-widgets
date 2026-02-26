@@ -1,5 +1,6 @@
 # description: A widget implementing a list configuration parameter,
-#              where the list entries are (de)serialised from/to a String Item by joining them with a comma.
+#              where the list entries are (de)serialized from/to a String Item by joining them with a comma.
+# dependencies: oh-context, available since openHAB 4.2.0
 # author: Copyright (c) 2025 smartheit GmbH under EPL-2.0
 uid: parameter-list
 tags:
