@@ -24,8 +24,10 @@ timestamp: Aug 28, 2025, 11:57:57 PM
 component: oh-context
 config:
   functions:
-    getElements: =() => items[props.item].state.split(',').map(e =>
-      e.trim()).filter(e => e.length)
+    getElements: =() => items[props.item].state
+      .split(',')
+      .map(e => e.trim())
+      .filter(e => e.length && e !== 'NULL' && e !== 'UNDEF')
   variables:
     newElement: ""
 slots:
