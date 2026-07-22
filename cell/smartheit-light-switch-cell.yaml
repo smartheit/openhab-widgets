@@ -1,0 +1,30 @@
+# description: A cell widget for turning switchable/dimmable lights on and off.
+# author: Copyright (c) 2026 smartheit GmbH under EPL-2.0
+uid: smartheit-light-switch-cell
+tags:
+  - smartheit
+  - cell
+props:
+  parameters:
+    - label: Title
+      name: title
+      required: false
+      type: TEXT
+    - context: item
+      label: Switch Item
+      name: item
+      required: true
+      type: TEXT
+  parameterGroups: []
+component: oh-label-cell
+config:
+  expandable: false
+  title: =props.title
+  label: "=@@props.item === 'ON' || #props.item > 0 ? 'an' : 'aus'"
+  icon: "=@@props.item === 'ON' || #props.item > 0 ? 'oh:light-on' : 'oh:light-off'"
+  action: toggle
+  actionItem: =props.item
+  actionCommand: ON
+  actionCommandAlt: OFF
+  on: true
+  color: "=@@props.item === 'ON' || #props.item > 0 ? 'yellow' : ''"
