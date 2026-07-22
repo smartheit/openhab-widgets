@@ -13,17 +13,17 @@ being used for projects at [smartheit GmbH](https://smartheit.com/).
 
 Configuration widgets are being used where the user needs to configure the system through Items.
 
-- [`parameter-list`](configuration/parameter-list.yaml): A widget implementing a list configuration parameter, where the list entries are serialised to a String Item by joining them with a comma.
+- [`smartheit-parameter-list`](configuration/smartheit-parameter-list.yaml): A widget implementing a list configuration parameter, where the list entries are serialised to a String Item by joining them with a comma.
 
 ### Labelling
 
-Labelling widgets are being used to add labels, headers & titles into layout pages.
+Labeling widgets are being used to add labels, headers & titles into layout pages.
 
-- [`plain-title`](labelling/plain-title.yaml): A widget displaying a plain title and subtitle without any background.
+- [`smartheit-plain-title`](labeling/smartheit-plain-title.yaml): A widget displaying a plain title and subtitle without any background.
 
 
 ### List
 
 List widgets are being used to display Item state in list views, for example when displaying all Items of a group.
 
-- [`number_list_with_export`](list/number_list_with_export.yaml): A list widget for Number Items with a persistence export button.
+- [`smartheit-number-list-item-with-export`](list/smartheit-number-list-item-with-export.yaml): A list widget for Number Items with a persistence export button.
