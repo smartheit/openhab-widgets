@@ -1,0 +1,48 @@
+# description: A cell widget for turning on/off a Dimmer and controlling the dim level.
+# dependencies: style without trendItem, available since openHAB 5.2.1
+# author: Copyright (c) 2026 smartheit GmbH under EPL-2.0
+uid: smartheit-dimmer-cell
+tags:
+  - smartheit
+  - cell
+props:
+  parameters:
+    - label: Title
+      name: title
+      required: false
+      type: TEXT
+    - context: item
+      label: Dimmer Item
+      name: item
+      required: true
+      type: TEXT
+    - default: rgba(255,255,0,0.3)
+      description: Background color when dimmer is on
+      label: On Color
+      name: backgroundOn
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Nov 27, 2021, 6:36:35 PM
+component: oh-label-cell
+config:
+  title: =props.title
+  label: "=#props.item > 0 ? 'Helligkeit: ' + #props.item + '%' : 'aus'"
+  icon: "=#props.item > 0 ? 'oh:light-on' : 'oh:light-off'"
+  action: toggle
+  actionItem: =(props.item)
+  actionCommand: ON
+  actionCommandAlt: OFF
+  on: true # needed for bg color
+  style:
+    background: "=#props.item > 0 ? props.backgroundOn : ''"
+slots:
+  default:
+    - component: oh-knob
+      config:
+        item: =props.item
+        min: 0
+        max: 100
+        size: 250
+        label: true
+        unit: "%"
