@@ -1,0 +1,45 @@
+# description: A cell widget for turning on/off a Color light and setting the color.
+#              Display the brightness and has the color of the Color Item if brightness is > 0.
+# dependencies: style without trendItem, available since openHAB 5.2.1
+# author: Copyright (c) 2026 smartheit GmbH under EPL-2.0
+uid: smartheit-rgb-cell
+tags:
+  - smartheit
+  - cell
+props:
+  parameters:
+    - label: Title
+      name: title
+      required: false
+      type: TEXT
+    - context: item
+      label: Color Item
+      name: item
+      required: true
+      type: TEXT
+  parameterGroups: []
+timestamp: Jan 2, 2022, 8:34:01 AM
+component: oh-label-cell
+config:
+  title: =props.title
+  label: "=#props.item > 0 ? 'Helligkeit: ' + #props.item + '%' : 'aus'"
+  on: true # needed for bg color
+  icon: oh:colorpicker
+  action: toggle
+  actionItem: =(props.item)
+  actionCommand: ON
+  actionCommandAlt: OFF
+  style:
+    background: >
+      =((@@props.item) === 'NULL' || (@@props.item) === 'UNDEF' || (#props.item) <= 0) ? '' :
+      'hwb('
+        + (@@props.item).split(',')[0] + ' ' 
+        + ((100 - Number((@@props.item).split(',')[1])) * Number((@@props.item).split(',')[2]) / 100) 
+        + '% ' + (100 - Number((@@props.item).split(',')[2])) + '%)'
+slots:
+  default:
+    - component: oh-colorpicker
+      config:
+        item: =props.item
+        modules:
+          - wheel
