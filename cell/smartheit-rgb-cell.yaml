@@ -23,12 +23,12 @@ component: oh-label-cell
 config:
   title: =props.title
   label: "=#props.item > 0 ? 'Helligkeit: ' + #props.item + '%' : 'aus'"
-  on: true # needed for bg color
   icon: oh:colorpicker
   action: toggle
   actionItem: =(props.item)
   actionCommand: ON
   actionCommandAlt: OFF
+  on: true # needed for bg color
   style:
     background: >
       =((@@props.item) === 'NULL' || (@@props.item) === 'UNDEF' || (#props.item) <= 0) ? '' :
