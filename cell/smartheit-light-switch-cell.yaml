@@ -16,6 +16,12 @@ props:
       name: item
       required: true
       type: TEXT
+    - default: rgba(255,255,0,0.3)
+      description: Background color when light switch is on
+      label: On Color
+      name: backgroundOn
+      required: false
+      type: TEXT
   parameterGroups: []
 component: oh-label-cell
 config:
@@ -29,4 +35,4 @@ config:
   actionCommandAlt: OFF
   on: true # needed for bg color
   style:
-    background: "=@@props.item === 'ON' || #props.item > 0 ? 'rgba(255,255,0,0.3)' : ''"
+    background: "=@@props.item === 'ON' || #props.item > 0 ? props.backgroundOn : ''"
