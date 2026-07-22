@@ -1,4 +1,5 @@
 # description: A cell widget for turning switchable/dimmable lights on and off.
+# dependencies: style without trendItem, available since openHAB 5.2.1
 # author: Copyright (c) 2026 smartheit GmbH under EPL-2.0
 uid: smartheit-light-switch-cell
 tags:
@@ -26,5 +27,6 @@ config:
   actionItem: =props.item
   actionCommand: ON
   actionCommandAlt: OFF
-  on: true
-  color: "=@@props.item === 'ON' || #props.item > 0 ? 'yellow' : ''"
+  on: true # needed for bg color
+  style:
+    background: "=@@props.item === 'ON' || #props.item > 0 ? 'rgba(255,255,0,0.3)' : ''"
