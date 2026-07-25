@@ -1,0 +1,345 @@
+# description: A cell widget for controlling a rollershutter or blinds with optional time control.
+# author: Copyright (c) 2026 smartheit GmbH under EPL-2.0
+uid: smartheit-rollershutter-cell
+tags:
+  - smartheit
+  - cell
+props:
+  parameters:
+    - label: Title
+      name: title
+      required: false
+      type: TEXT
+    - context: item
+      description: Rollershutter item to control the shutter.
+      groupName: shutter
+      label: Shutter Item
+      name: itemShutter
+      required: true
+      type: TEXT
+    - context: item
+      description: Switch item indicating if the shutter is currently moving. If not provided, the moving state won't be displayed.
+      groupName: shutter
+      label: Shutter Moving Item
+      name: itemShutterMoving
+      required: false
+      type: TEXT
+    - context: item
+      description: Rollershutter or Dimmer item to control the blinds. If not provided, the blinds control won't be displayed.
+      groupName: shutter
+      label: Blinds Item
+      name: itemBlinds
+      required: false
+      type: TEXT
+    - context: item
+      description: Switch item to enable/disable the time control. If not provided, the time control won't be displayed.
+      groupName: timeControl
+      label: Active Timer Item
+      name: itemTimerActive
+      required: false
+      type: TEXT
+    - context: item
+      description: DateTime item for the scheduled time to open the shutter.
+      groupName: timeControl
+      label: Time Up Item
+      name: itemTimeUp
+      required: false
+      type: TEXT
+    - context: item
+      description: DateTime item for the scheduled time to close the shutter.
+      groupName: timeControl
+      label: DateTime Item Down
+      name: itemTimeDown
+      required: false
+      type: TEXT
+    - groupName: localisation
+      label: Label for Shutter
+      name: labelShutter
+      required: false
+      type: TEXT
+      default: Rolladen
+    - groupName: localisation
+      label: Label for Moving State
+      name: labelMoving
+      required: false
+      type: TEXT
+      default: fährt...
+    - groupName: localisation
+      label: Label for Blinds
+      name: labelBlinds
+      required: false
+      type: TEXT
+      default: Lamellen
+    - groupName: localisation
+      label: Label for Time Control
+      name: labelTimeControl
+      required: false
+      type: TEXT
+      default: Zeitsteuerung
+    - groupName: localisation
+      label: Label for Timer Toggle
+      name: labelTimerActive
+      required: false
+      type: TEXT
+      default: Zeitschaltuhr
+    - groupName: localisation
+      label: Label for Up Time
+      name: labelTimeUp
+      required: false
+      type: TEXT
+      default: Hoch
+    - groupName: localisation
+      label: Label for Down Time
+      name: labelTimeDown
+      required: false
+      type: TEXT
+      default: Runter
+  parameterGroups:
+    - name: shutter
+      label: Shutter & Blinds
+      description: Configure items related to roller shutter position, movement, and blinds
+    - name: timeControl
+      label: Time Control
+      description: Configure timer switch and scheduled open/close time items
+    - name: localisation
+      label: Localisation
+      description: Customise display labels and translations
+component: oh-cell
+config:
+  title: =props.title
+  style:
+    background: "=(@@props.itemShutter == '0') ? 'var(--f7-card-bg-color)' : 'rgba(107, 107, 107, 1.0)'"
+slots:
+  header:
+    - component: f7-block
+      config:
+        class:
+          - no-padding
+        style:
+          margin: 0px
+          width: 100%
+      slots:
+        default:
+          - component: f7-row
+            config:
+              style:
+                flex-wrap: nowrap
+                white-space: nowrap
+            slots:
+              default:
+                - component: f7-col
+                  slots:
+                    default:
+                      - component: f7-row
+                        config:
+                          class:
+                            - justify-content-flex-start
+                          style:
+                            flex-wrap: nowrap
+                            width: 100%
+                        slots:
+                          default:
+                            - component: oh-icon
+                              config:
+                                icon: rollershutter
+                                state: =@@props.itemShutter
+                                style:
+                                  margin-top: 0px
+                                  width: 30px
+                            - component: Label
+                              config:
+                                style:
+                                  font-size: 15px
+                                  font-weight: 600
+                                  margin-left: 10px
+                                  margin-top: 3px
+                                  overflow: hidden
+                                  text-overflow: ellipsis
+                                  white-space: nowrap
+                                text: =props.title
+                      - component: f7-row
+                        config:
+                          class:
+                            - justify-content-flex-start
+                          style:
+                            flex-wrap: nowrap
+                            width: 100%
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  font-size: 14px
+                                  font-weight: 400
+                                  margin-left: 5px
+                                  margin-top: 0px
+                                  overflow: hidden
+                                  text-overflow: ellipsis
+                                  white-space: nowrap
+                                text: "=(props.itemBlinds) ? ((props.labelShutter) + ' ' + @props.itemShutter) : (@props.itemShutter)"
+                                visible: "=!props.itemShutterMoving || @@props.itemShutterMoving !== 'OPEN'"
+                      - component: f7-row
+                        config:
+                          class:
+                            - justify-content-flex-start
+                          style:
+                            flex-wrap: nowrap
+                            width: 100%
+                        slots:
+                          default:
+                            - component: Label
+                              config:
+                                style:
+                                  font-size: 14px
+                                  font-weight: 400
+                                  margin-left: 5px
+                                  margin-top: 0px
+                                  overflow: hidden
+                                  text-overflow: ellipsis
+                                  white-space: nowrap
+                                text: "=(props.itemShutterMoving && @@props.itemShutterMoving == 'OPEN') ? (props.labelMoving) : (props.itemBlinds ? ((props.labelBlinds) + ' ' + @props.itemBlinds) : '')"
+                                visible: "=(props.itemShutterMoving && @@props.itemShutterMoving === 'ON') || !!props.itemBlinds"
+                      - component: f7-row
+                        config:
+                          class:
+                            - justify-content-flex-start
+                          style:
+                            flex-wrap: nowrap
+                            width: 100%
+                        slots:
+                          default:
+                            - component: f7-icon
+                              config:
+                                f7: timer
+                                size: 20px
+                                style:
+                                  color: var(--f7-text-color)
+                                  margin-left: 5px
+                                  margin-top: 5px
+                                visible: "=!!props.itemTimerActive && @@props.itemTimerActive === 'ON'"
+                            - component: Label
+                              config:
+                                style:
+                                  font-size: 14px
+                                  font-weight: 400
+                                  margin-left: 10px
+                                  margin-top: 5px
+                                  overflow: hidden
+                                  text-overflow: ellipsis
+                                  white-space: nowrap
+                                text: "='▲ ' + dayjs(@@props.itemTimeUp).format('HH:mm')"
+                                visible: "=!!props.itemTimeUp && (!props.itemTimerActive || @@props.itemTimerActive === 'ON')"
+                            - component: Label
+                              config:
+                                style:
+                                  font-size: 14px
+                                  font-weight: 400
+                                  margin-left: 5px
+                                  margin-top: 5px
+                                  overflow: hidden
+                                  text-overflow: ellipsis
+                                  white-space: nowrap
+                                text: "='▼ ' + dayjs(@@props.itemTimeDown).format('HH:mm')"
+                                visible: "=!!props.itemTimeDown && (!props.itemTimerActive || @@props.itemTimerActive === 'ON')"
+  default:
+    - component: oh-list
+      config:
+        style:
+          margin: 0
+          padding: 0
+          width: 100%
+      slots:
+        default:
+          - component: Label
+            config:
+              style:
+                border-bottom: 1px solid grey
+                color: gray
+                font-weight: 600
+                margin-bottom: 12px
+                margin-top: 15px
+                padding: 7px
+                width: 100%
+              text: "=props.labelShutter"
+              visible: "=!!props.itemBlinds || !!props.itemTimerActive || !!props.itemTimeUp || !!props.itemTimeDown"
+          - component: f7-row
+            config:
+              class:
+                - justify-content-center
+              style:
+                margin-bottom: 0px
+                margin-top: 5px
+                width: 100%
+            slots:
+              default:
+                - component: oh-rollershutter
+                  config:
+                    item: =props.itemShutter
+          - component: oh-slider-item
+            config:
+              item: =props.itemShutter
+              label: false
+              max: 100
+              min: 0
+              style:
+                margin-top: 0px
+                width: 100%
+              unit: "%"
+          - component: Label
+            config:
+              style:
+                border-bottom: 1px solid grey
+                color: gray
+                font-weight: 600
+                margin-bottom: 5px
+                margin-top: 20px
+                padding: 7px
+                width: 100%
+              text: "=props.labelBlinds"
+              visible: "=!!props.itemBlinds"
+          - component: oh-slider-item
+            config:
+              item: =props.itemBlinds
+              label: false
+              max: 100
+              min: 0
+              style:
+                margin-top: 0px
+                width: 100%
+              unit: "%"
+              visible: "=!!props.itemBlinds"
+          - component: Label
+            config:
+              style:
+                border-bottom: 1px solid grey
+                color: gray
+                font-weight: 600
+                margin-bottom: 5px
+                margin-top: 20px
+                padding: 7px
+                width: 100%
+              text: "=props.labelTimeControl"
+              visible: "=!!props.itemTimerActive || !!props.itemTimeUp || !!props.itemTimeDown"
+          - component: oh-toggle-item
+            config:
+              color: green
+              icon: f7:alarm
+              item: =props.itemTimerActive
+              title: "=props.labelTimerActive"
+              visible: "=!!props.itemTimerActive"
+          - component: oh-input-item
+            config:
+              icon: f7:arrow_up
+              item: =props.itemTimeUp
+              sendUpdate: true
+              title: "=props.labelTimeUp || 'Hoch'"
+              type: time
+              visible: "=!!props.itemTimeUp && (!props.itemTimerActive || @@props.itemTimerActive === 'ON')"
+          - component: oh-input-item
+            config:
+              icon: f7:arrow_down
+              item: =props.itemTimeDown
+              sendUpdate: true
+              title: "=props.labelTimeDown || 'Runter'"
+              type: time
+              visible: "=!!props.itemTimeDown && (!props.itemTimerActive || @@props.itemTimerActive === 'ON')"
