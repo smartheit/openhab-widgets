@@ -107,8 +107,8 @@ props:
 component: oh-cell
 config:
   title: =props.title
-  style:
-    background: "=(@@props.itemShutter == '0') ? 'var(--f7-card-bg-color)' : 'rgba(107, 107, 107, 1.0)'"
+  on: true
+  color: "=(#props.itemShutter === 0) ? '' : 'gray'"
 slots:
   header:
     - component: f7-block
