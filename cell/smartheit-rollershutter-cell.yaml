@@ -332,7 +332,7 @@ slots:
               icon: f7:arrow_up
               item: =props.itemTimeUp
               sendUpdate: true
-              title: "=props.labelTimeUp || 'Hoch'"
+              title: =props.labelTimeUp
               type: time
               visible: "=!!props.itemTimeUp && (!props.itemTimerActive || @@props.itemTimerActive === 'ON')"
           - component: oh-input-item
@@ -340,6 +340,6 @@ slots:
               icon: f7:arrow_down
               item: =props.itemTimeDown
               sendUpdate: true
-              title: "=props.labelTimeDown || 'Runter'"
+              title: =props.labelTimeDown
               type: time
               visible: "=!!props.itemTimeDown && (!props.itemTimerActive || @@props.itemTimerActive === 'ON')"
